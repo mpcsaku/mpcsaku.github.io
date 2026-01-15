@@ -1,58 +1,79 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Player</title>
-  <style>
-    /* 余計な余白を消してiframeを全画面にする */
-    body, html {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background-color: #000;
-    }
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      display: block;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YT Preview Proxy</title>
+    <style>
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            overflow: hidden; 
+            background-color: #0a0a0a; /* 真っ黒より少し目に優しい黒 */
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        iframe {
+            width: 100%; height: 100%; border: none;
+        }
+
+        /* おしゃれ用スタイル */
+        .status-box {
+            text-align: center;
+            padding: 24px 32px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            animation: fadeIn 0.4s ease-out;
+        }
+        .status-icon {
+            font-size: 24px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+            filter: grayscale(100%);
+        }
+        .status-message {
+            color: #888;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
-  <div id="player"></div>
-  <script>
-    (function() {
-      // URLパラメータから動画ID(v)と開始時間(t)を取得
-      const params = new URLSearchParams(window.location.search);
-      const videoId = params.get('v');
-      let startTime = params.get('t');
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const videoId = params.get('v');
+        const start = params.get('t');
 
-      if (!videoId) {
-        document.body.innerHTML = '<p style="color:white; text-align:center; margin-top:20%;">No Video ID</p>';
-        return;
-      }
+        if (videoId) {
+            const iframe = document.createElement('iframe');
+            // 安定性重視で標準ドメインを使用
+            let src = `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1&rel=0`;
+            
+            if (start) {
+                src += `&start=${start}`;
+            }
 
-      // 時間の整形 (YouTube埋め込みは秒数 'start' パラメータが必要)
-      // 拡張機能からは秒数で来る想定だけど、念のためそのまま渡す
-      if (!startTime) startTime = 0;
-
-      // iframeの生成
-      // autoplay=1: 自動再生
-      // playsinline=1: モバイル等でインライン再生優先
-      // rel=0: 関連動画をチャンネル内に限定
-      const embedUrl = `https://www.youtube.com/embed/${videoId}?start=${startTime}&autoplay=1&playsinline=1&rel=0`;
-
-      const iframe = document.createElement('iframe');
-      iframe.src = embedUrl;
-      iframe.allow = "autoplay; encrypted-media; picture-in-picture; clipboard-write";
-      iframe.allowFullscreen = true;
-      
-      document.body.appendChild(iframe);
-    })();
-  </script>
+            iframe.src = src;
+            iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+            iframe.allowFullscreen = true;
+            document.body.appendChild(iframe);
+        } else {
+            // ここがおしゃれ変更ポイント
+            document.body.innerHTML = `
+                <div class="status-box">
+                    <div class="status-icon">📺</div>
+                    <div class="status-message">No Signal</div>
+                </div>
+            `;
+        }
+    </script>
 </body>
 </html>
