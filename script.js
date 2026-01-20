@@ -252,3 +252,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+// スクロールインジケーターの制御
+const scrollIndicator = document.querySelector('.scroll-indicator');
+window.addEventListener('scroll', () => {
+    // 100px以上スクロールしたら消す（数値はお好みで調整してね！）
+    if (window.scrollY > 100) {
+        scrollIndicator.classList.add('fade-out');
+    } else {
+        scrollIndicator.classList.remove('fade-out');
+    }
+});
