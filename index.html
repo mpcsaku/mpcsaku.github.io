@@ -3,77 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YT Preview Proxy</title>
-    <style>
-        body, html {
-            margin: 0; padding: 0; width: 100%; height: 100%;
-            overflow: hidden; 
-            background-color: #0a0a0a; /* 真っ黒より少し目に優しい黒 */
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        iframe {
-            width: 100%; height: 100%; border: none;
-        }
-
-        /* おしゃれ用スタイル */
-        .status-box {
-            text-align: center;
-            padding: 24px 32px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 8px;
-            backdrop-filter: blur(4px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-            animation: fadeIn 0.4s ease-out;
-        }
-        .status-icon {
-            font-size: 24px;
-            margin-bottom: 12px;
-            opacity: 0.5;
-            filter: grayscale(100%);
-        }
-        .status-message {
-            color: #888;
-            font-size: 11px;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+    <title>MPCSAKU's Showcase | Creative Extensions</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;900&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <script>
-        const params = new URLSearchParams(window.location.search);
-        const videoId = params.get('v');
-        const start = params.get('t');
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="page-title">MPCSAKU's Showcase</h1>
+            <p class="page-subtitle">
+                <span>直感を加速させ、日常をハックする。</span><br>
+                <span>洗練された機能が、あなたのブラウザを別次元へ。</span>
+            </p>
+            <a href="#grid-section" class="cta-button">Explore Collection</a>
+        </div>
 
-        if (videoId) {
-            const iframe = document.createElement('iframe');
-            // 安定性重視で標準ドメインを使用
-            let src = `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1&rel=0`;
-            
-            if (start) {
-                src += `&start=${start}`;
-            }
+        <div class="scroll-indicator">
+            <svg width="30" height="45" viewBox="0 0 30 45">
+                <rect x="2" y="2" width="26" height="41" rx="13" stroke="white" stroke-width="1.5" fill="none" />
+                <circle cx="15" cy="12" r="2.5" fill="white" />
+            </svg>
+        </div>
+    </section>
 
-            iframe.src = src;
-            iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-            iframe.allowFullscreen = true;
-            document.body.appendChild(iframe);
-        } else {
-            // ここがおしゃれ変更ポイント
-            document.body.innerHTML = `
-                <div class="status-box">
-                    <div class="status-icon">📺</div>
-                    <div class="status-message">No Signal</div>
-                </div>
-            `;
-        }
-    </script>
+    <main id="grid-section">
+        <div class="container">
+            <div class="section-intro">
+                <span class="eyecatch">COLLECTION</span>
+                <h2 class="section-title">Project Archive</h2>
+                <div class="title-line"></div>
+            </div>
+
+            <div class="project-grid" id="projectGrid"></div>
+        </div>
+    </main>
+
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">✕</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 MPCSAKU. Created with Passion.</p>
+    </footer>
+
+    <script src="script.js" defer></script>
 </body>
 </html>
