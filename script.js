@@ -6,9 +6,9 @@ const i18n = {
     ja: {
         heroSubtitle: "<span>直感を加速させ、日常をハックする。</span><br><span>洗練された機能が、あなたのブラウザを別次元へ。</span>",
         ctaBtn: "コレクションを見る",
-        eyecatch: "コレクション",
-        sectionTitle: "プロジェクト アーカイブ",
-        footerText: "© 2026 MPCSAKU. 情熱を込めて制作。",
+        eyecatch: "COLLECTION",
+        sectionTitle: "Project Archive",
+        footerText: "© 2026 MPCSAKU. Created with Passion.",
         storeBtn: "Chromeウェブストアで見る"
     },
     en: {
