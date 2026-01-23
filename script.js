@@ -1,3 +1,5 @@
+// --- START OF FILE script.js ---
+
 // ブラウザの言語設定を取得
 const userLang = navigator.language.startsWith('ja') ? 'ja' : 'en';
 
@@ -163,6 +165,19 @@ const projects = [
         en: {
             shortDesc: "Ultra-fast reload tool for Chrome extension developers.",
             features: ["One-click batch reload for multiple extensions in development", "Speed up cycles with shortcuts (Default: Alt+R)", "Optionally reload active tabs alongside extensions"]
+        }
+    },
+    {
+        title: "Google AI Studio Lite",
+        icon: "icons/12.png",
+        link: "https://chromewebstore.google.com/detail/google-ai-studio-lite/elcdaloloijikmfondjaemodhfbdgeko",
+        ja: {
+            shortDesc: "Google AI Studioのチャット履歴を制御し、メモリ消費を抑えて動作を軽量化。",
+            features: ["古い会話を自動で非表示/削除し、長時間の作業でもブラウザの重さを軽減", "目に優しいパステルカラーのテーマや色相のカスタマイズ", "トークン数や編集ボタン等の不要な要素を隠し、執筆に集中できるUIへ"]
+        },
+        en: {
+            shortDesc: "Optimize Google AI Studio performance by managing chat history and memory usage.",
+            features: ["Automatically hide/remove old messages to keep the browser running smoothly", "Apply pastel themes and customize UI hues for a pleasant experience", "Hide clutter like token counts and buttons to focus on your creative flow"]
         }
     }
 ];
