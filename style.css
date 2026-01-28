@@ -270,7 +270,25 @@ body::before {
   position: relative;
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+  
+  /* ★ 追加: 長文になっても画面からはみ出さないようにスクロールさせる */
+  max-height: 85vh;
+  overflow-y: auto;
+  
+  /* スクロールバーのデザイン（Webkit系） */
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+  }
 }
+
+
 .modal-header-info {
   display: flex;
   align-items: center;
@@ -352,6 +370,34 @@ body::before {
   }
 }
 
+
+/* プライバシーポリシー用のテキストスタイル */
+.policy-text h3 {
+  color: #fff;
+  margin-top: 24px;
+  margin-bottom: 12px;
+  font-size: 1.2rem;
+  border-left: 4px solid var(--accent-primary);
+  padding-left: 12px;
+}
+.policy-text h3:first-child {
+  margin-top: 0;
+}
+.policy-text p {
+  color: var(--text-sub);
+  margin-bottom: 16px;
+  line-height: 1.8;
+  font-size: 0.95rem;
+}
+.policy-text ul {
+  margin-bottom: 16px;
+  padding-left: 20px;
+  color: var(--text-sub);
+}
+.policy-text li {
+  margin-bottom: 8px;
+}
+
 /* フッターをコンパクトかつオシャレに調整 */
 .footer {
   text-align: center;
@@ -362,11 +408,38 @@ body::before {
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
 }
+
+/* コンテナで縦並びを制御 */
+.footer-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+/* ★ プライバシーポリシーリンクのスタイル */
+.footer-link {
+  color: var(--text-sub);
+  font-size: 0.9rem;
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+}
+
+.footer-link:hover {
+  color: #fff;
+  border-bottom-color: var(--accent-primary);
+  text-shadow: 0 0 10px rgba(10, 132, 255, 0.4);
+}
+
 .footer p {
   color: var(--text-sub);
   font-size: 0.85rem;
   letter-spacing: 0.1em;
-  opacity: 0.8;
+  opacity: 0.6; /* リンクより少し控えめに */
   transition: 0.3s;
 }
 .footer p:hover {
