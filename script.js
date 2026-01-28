@@ -11,7 +11,8 @@ const i18n = {
         eyecatch: "COLLECTION",
         sectionTitle: "Project Archive",
         footerText: "© 2026 MPCSAKU. Created with Passion.",
-        storeBtn: "Chromeウェブストアで見る"
+        storeBtn: "Chromeウェブストアで見る",
+        privacyPolicy: "Privacy Policy"
     },
     en: {
         heroSubtitle: "<span>Accelerate your intuition, hack your daily life.</span><br><span>Sophisticated features take your browser to another dimension.</span>",
@@ -19,7 +20,64 @@ const i18n = {
         eyecatch: "COLLECTION",
         sectionTitle: "Project Archive",
         footerText: "© 2026 MPCSAKU. Created with Passion.",
-        storeBtn: "View on Chrome Web Store"
+        storeBtn: "View on Chrome Web Store",
+        privacyPolicy: "Privacy Policy"
+    }
+};
+
+// プライバシーポリシーの本文データ
+const privacyContent = {
+    ja: {
+        title: "プライバシーポリシー",
+        body: `
+            <div class="policy-text">
+                <h3>1. ユーザー情報の収集について</h3>
+                <p>当方が公開するChrome拡張機能（以下、本拡張機能）は、ユーザーの個人情報を意図的に収集・送信することはありません。</p>
+                <p>機能の実現に必要なデータ（設定値、キャッシュなど）は、ユーザーのローカル環境（Chromeストレージ）にのみ保存され、開発者のサーバーへ送信されることはありません。</p>
+
+                <h3>2. データの利用目的</h3>
+                <p>本拡張機能が扱うデータは、以下の目的でのみ使用されます。</p>
+                <ul>
+                    <li>拡張機能の主要な機能を提供するため</li>
+                    <li>ユーザーの設定を保存・適用するため</li>
+                </ul>
+
+                <h3>3. Google Analytics等の利用</h3>
+                <p>本ウェブサイト（ポートフォリオ）では、アクセス解析のためにGoogle Analyticsを使用する場合がありますが、これにより個人が特定されることはありません。</p>
+
+                <h3>4. 免責事項</h3>
+                <p>本拡張機能の利用によって生じた、いかなる損害についても、開発者は責任を負いかねます。自己責任でのご利用をお願いいたします。</p>
+
+                <h3>5. お問い合わせ</h3>
+                <p>本ポリシーに関するご質問は、各拡張機能のストアページまたはGitHub等からご連絡ください。</p>
+            </div>
+        `
+    },
+    en: {
+        title: "Privacy Policy",
+        body: `
+            <div class="policy-text">
+                <h3>1. Collection of User Information</h3>
+                <p>The Chrome extensions published by us (hereinafter referred to as "these Extensions") do not intentionally collect or transmit users' personal information.</p>
+                <p>Data necessary for functionality (settings, cache, etc.) is stored only in the user's local environment (Chrome Storage) and is not sent to the developer's servers.</p>
+
+                <h3>2. Purpose of Data Use</h3>
+                <p>Data handled by these Extensions is used solely for the following purposes:</p>
+                <ul>
+                    <li>To provide the main features of the extensions</li>
+                    <li>To save and apply user settings</li>
+                </ul>
+
+                <h3>3. Use of Google Analytics</h3>
+                <p>This website (Portfolio) may use Google Analytics for access analysis, but this does not identify individuals.</p>
+
+                <h3>4. Disclaimer</h3>
+                <p>The developer assumes no responsibility for any damages caused by the use of these Extensions. Please use them at your own risk.</p>
+
+                <h3>5. Contact</h3>
+                <p>If you have any questions regarding this policy, please contact us via the store page of each extension or GitHub.</p>
+            </div>
+        `
     }
 };
 
@@ -190,11 +248,46 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('eyecatch').innerText = t.eyecatch;
     document.getElementById('sectionTitle').innerText = t.sectionTitle;
     document.getElementById('footerText').innerText = t.footerText;
+    
+    // フッターリンクのテキスト設定
+    const privacyLink = document.getElementById('privacyLink');
+    if(privacyLink) privacyLink.innerText = t.privacyPolicy;
 
     const grid = document.getElementById('projectGrid');
     const modal = document.getElementById('detailModal');
     const modalBody = document.getElementById('modalBody');
     const closeBtn = document.querySelector('.close-button');
+
+    // ★ ヘルパー関数: モーダルを開く処理
+    const openModal = () => {
+        modal.classList.add('show');
+        // 背景のスクロールを止める
+        document.body.style.overflow = 'hidden';
+    };
+
+    // ★ ヘルパー関数: モーダルを閉じる処理
+    const closeModal = () => {
+        modal.classList.remove('show');
+        // 背景のスクロールを戻す
+        document.body.style.overflow = '';
+    };
+
+    // プライバシーポリシーのクリックイベント
+    if (privacyLink) {
+        privacyLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            const content = privacyContent[userLang];
+            
+            modalBody.innerHTML = `
+                <div class="modal-header-info">
+                    <div style="font-size: 3rem; margin-right: 20px;">🛡️</div>
+                    <h2 class="modal-title">${content.title}</h2>
+                </div>
+                ${content.body}
+            `;
+            openModal();
+        });
+    }
 
     // 2. カード生成
     projects.forEach((p) => {
@@ -227,14 +320,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 </ul>
                 <a href="${p.link}" class="store-link" target="_blank">${t.storeBtn}</a>
             `;
-            modal.classList.add('show');
+            openModal();
         });
 
         grid.appendChild(card);
     });
 
-    closeBtn.onclick = () => modal.classList.remove('show');
-    window.onclick = (e) => { if (e.target == modal) modal.classList.remove('show'); };
+    closeBtn.onclick = closeModal;
+    window.onclick = (e) => { if (e.target == modal) closeModal(); };
 
     // 3. スムーススクロール
     const ctaButton = document.getElementById('ctaBtn');
@@ -267,13 +360,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
 // スクロールインジケーターの制御
 const scrollIndicator = document.querySelector('.scroll-indicator');
-window.addEventListener('scroll', () => {
-    // 100px以上スクロールしたら消す（数値はお好みで調整してね！）
-    if (window.scrollY > 100) {
-        scrollIndicator.classList.add('fade-out');
-    } else {
-        scrollIndicator.classList.remove('fade-out');
-    }
-});
+if (scrollIndicator) {
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 100) {
+            scrollIndicator.classList.add('fade-out');
+        } else {
+            scrollIndicator.classList.remove('fade-out');
+        }
+    });
+}
